@@ -11,13 +11,13 @@ public class Binomial {
 	}
 
 	// Computes the Binomial function, basic version.
-	public static long binomial1(int n, int k) { 
+	public static int binomial1(int n, int k) { 
 		//// Repplace the following comment with your code
 		return 0;
 	 }
 	
 	// Computes the Binomial function, efficiently
-	public static long binomial(int n, int k) {
+	public static int binomial(int n, int k) {
 		//// This function creates a 2D array, say memo, 
 		//// and then initializes all its elements to -1.
 		//// It then calls binomial(n, k, memo), which does all the heavy lifiting.
@@ -25,7 +25,7 @@ public class Binomial {
 		return 0;
 	}
 
-	private static long binomial(int n, int k, long[][] memo) {
+	private static int binomial(int n, int k, int[][] memo) {
 		if (memo[n][k] != -1) {
 			return memo[n][k];
 		}
@@ -43,5 +43,6 @@ public class Binomial {
 		return memo[n][k];
 	}
 }
+
 
 
