@@ -1,19 +1,14 @@
 /** Computes the binomial(n,k) function. */
 public class Binomial { 
     public static void main(String[] args) {
-        //// Uncomment the version of binomial that you want to test
- 
-        // Testing the basic binomial implementation:
-        // System.out.println(binomial1(Integer.parseInt(args[0]), Integer.parseInt(args[1])));
-
         // Testing the optimized binomial implementation:
-        // We assume arguments are passed via command line, e.g., "java Binomial 5 2"
         if (args.length >= 2) {
              System.out.println(binomial(Integer.parseInt(args[0]), Integer.parseInt(args[1])));
         }
     }
 
     // Computes the Binomial function, basic version.
+    // We keep this as int because it's not efficient enough for large numbers anyway.
     public static int binomial1(int n, int k) { 
         if (k > n) {
             return 0;
@@ -24,10 +19,12 @@ public class Binomial {
         return binomial1(n - 1, k) + binomial1(n - 1, k - 1);
      }
     
-    // Computes the Binomial function, efficiently
-    public static int binomial(int n, int k) {
+    // Computes the Binomial function, efficiently using memoization.
+    // CHANGED return type to long to handle large results like binomial(50, 25).
+    public static long binomial(int n, int k) {
         // Create the memoization array of size (n+1) x (k+1)
-        int[][] memo = new int[n + 1][k + 1];
+        // CHANGED array type to long[][]
+        long[][] memo = new long[n + 1][k + 1];
         
         // Initialize all elements to -1
         for (int i = 0; i <= n; i++) {
@@ -40,22 +37,30 @@ public class Binomial {
         return binomial(n, k, memo);
     }
 
-    private static int binomial(int n, int k, int[][] memo) {
+    // Helper function with memoization
+    // CHANGED return type to long and argument to long[][]
+    private static long binomial(int n, int k, long[][] memo) {
+        // If the value is already computed (not -1), return it
         if (memo[n][k] != -1) {
             return memo[n][k];
         }
-        // Base case
+        
+        // Base case: if k > n, the result is 0
         if (k > n) {
             memo[n][k] = 0; 
             return 0;
         }
-        // Another base case
+        
+        // Base case: if k is 0 or n is 0 (and k<=n), the result is 1
         if (n == 0 || k == 0) {
             memo[n][k] = 1; 
             return 1;
         }
-        // Recursive step with memoization
+        
+        // Recursive step: compute and store in memo
+        // The result is the sum of the two recursive calls
         memo[n][k] = binomial(n - 1, k, memo) + binomial(n - 1, k - 1, memo);
+        
         return memo[n][k];
     }
 }
